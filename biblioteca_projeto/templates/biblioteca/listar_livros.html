@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Meus Livros</h2>
+        <a href="{% url 'criar_livro' %}" class="btn btn-success">+ Criar Livro</a>
+    </div>
+
+    <form method="GET" class="row g-3 mb-4">
+        <div class="col-md-5">
+            <input type="text" name="busca" class="form-control" placeholder="Buscar por título ou autor..." value="{{ request.GET.busca }}">
+        </div>
+        <div class="col-md-4">
+            <select name="genero" class="form-control">
+                <option value="">Todos os Gêneros</option>
+                {% for valor, rotulo in generos %}
+                    <option value="{{ valor }}" {% if request.GET.genero == valor %}selected{% endif %}>{{ rotulo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-outline-primary w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for livro in livros %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if livro.capa %}
+                        <img src="{{ livro.capa.url }}" class="card-img-top" alt="{{ livro.titulo }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 250px;">
+                            <span>Sem Capa</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ livro.titulo }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ livro.autor }}</h6>
+                        <span class="badge bg-info text-dark mb-2">{{ livro.genero }}</span>
+                        <p class="card-text"><small class="text-muted">Publicado em: {{ livro.ano_publicacao }}</small></p>
+                        <p class="card-text">{{ livro.resumo|truncatewords:20 }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">Nenhum livro encontrado.</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

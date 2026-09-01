@@ -7,3 +7,10 @@ urlpatterns = [
     path('editar/<int:pk>/', LivroUpdateView.as_view(), name='livro_update'),
     path('deletar/<int:pk>/', LivroDeleteView.as_view(), name='livro_delete'),
 ]
+
+from . import views
+
+urlpatterns = [
+    path('livros/', views.listar_livros, name='listar_livros'),
+    path('livros/novo/', views.criar_livro, name='criar_livro'),
+]

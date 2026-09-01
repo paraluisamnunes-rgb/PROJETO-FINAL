@@ -7,11 +7,9 @@
             <div class="card-body">
                 <h3 class="card-title mb-4">📚 Cadastrar Novo Livro</h3>
                 
-                <!-- O enctype é obrigatório caso o seu modelo de livro envie imagens/capas -->
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     
-                    <!-- Renderiza todos os campos do modelo de forma organizada -->
                     {% for field in form %}
                         <div class="mb-3">
                             <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
@@ -35,7 +33,6 @@
     </div>
 </div>
 
-<!-- Scripts rápidos para deixar os inputs com a cara do Bootstrap automaticamente -->
 <script>
     document.querySelectorAll('input, textarea, select').forEach(function(el) {
         if (el.type !== 'checkbox' && el.type !== 'file') {
